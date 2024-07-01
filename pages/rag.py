@@ -11,25 +11,30 @@ import pandas as pd
 import numpy as np
 import boto3
 from io import BytesIO
+import podcasts as pod
 
 
 load_dotenv()
 
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-MILVUS_API_KEY = os.environ.get('MILVUS_API_KEY')
-MILVUS_CLUSTER_ID = os.environ.get('MILVUS_CLUSTER_ID')
-AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-S3_BUCKET = os.environ.get('S3_BUCKET')
+OPENAI_API_KEY = pod.OPENAI_API_KEY
+MILVUS_API_KEY = pod.MILVUS_API_KEY
+MILVUS_CLUSTER_ID = pod.MILVUS_CLUSTER_ID
+AWS_ACCESS_KEY = pod.AWS_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = pod.AWS_SECRET_ACCESS_KEY
+S3_BUCKET = pod.S3_BUCKET
+FOLDER = pod.FOLDER
 
-s3_client = boto3.client('s3',
-                         aws_access_key_id = AWS_ACCESS_KEY,
-                        aws_secret_access_key = AWS_SECRET_ACCESS_KEY)
+s3_client = pod.s3_client
+
+key = f'{FOLDER}/all_videos_index.df'
+obj = s3_client.get_object(Bucket=S3_BUCKET, Key = key)
+buffer = BytesIO(obj['Body'].read())
+
 @cache_data
 def get_all_videos_index_df():
-    bucket = S3_BUCKET
-    key = 'lex-fridman/all_videos_index.df'
-    obj = s3_client.get_object(Bucket=bucket, Key = key)
+    
+    key = f'{FOLDER}/all_videos_index.df'
+    obj = s3_client.get_object(Bucket=S3_BUCKET, Key = key)
     buffer = BytesIO(obj['Body'].read())
     return pd.read_parquet(buffer).drop_duplicates(subset=['file_name','segment_id'])
 
