@@ -17,13 +17,8 @@ if PASSWORD != st.session_state.password:
     st.stop()
 else:
 
-    AWS_ACCESS_KEY_ID = pod.AWS_ACCESS_KEY_ID
-    AWS_SECRET_KEY = pod.AWS_SECRET_KEY
 
-
-    S3_CLIENT = boto3.client('s3',
-                aws_access_key_id = AWS_ACCESS_KEY_ID,
-                aws_secret_access_key = AWS_SECRET_KEY)
+    S3_CLIENT = pod.s3_client
 
 
 
