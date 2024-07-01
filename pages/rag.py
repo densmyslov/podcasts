@@ -166,7 +166,8 @@ else:
             segment_texts = video_index_df.query("segment_id==@segment_ids")[['segment_id','text']].to_dict(orient='records')
             segment_texts = json.dumps(segment_texts)
             prompt = f"""Please analyze the Dialogue text and asnwer the Question below. In your answer make a reference 
-            to the segment_ids on which you answer is based and corresponding text quotes. Output JSON:
+            to the segment_ids on which you answer is based and corresponding text quotes. Output JSON.
+            ### Example:
             {{
                 "segment 1": {{"quote": "...",
                             "assistant_comment": "..."}},
