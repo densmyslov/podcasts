@@ -17,9 +17,9 @@ if PASSWORD != st.session_state.password:
     st.stop()
 else:
 
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY')
-    YT_STREAM_KEY = os.environ.get('YT_STREAM_KEY') # API to download youtube videos as MP4 
+    AWS_ACCESS_KEY_ID = pod.AWS_ACCESS_KEY_ID
+    AWS_SECRET_KEY = pod.AWS_SECRET_KEY
+
 
     S3_CLIENT = boto3.client('s3',
                 aws_access_key_id = AWS_ACCESS_KEY_ID,
