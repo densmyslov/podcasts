@@ -10,8 +10,8 @@ load_dotenv()
 # AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
 # AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 # S3_BUCKET = os.environ.get('S3_BUCKET')
-FOLDER = os.environ.get('FOLDER')
-PASSWORD = os.environ.get('PASSWORD')
+# FOLDER = os.environ.get('FOLDER')
+# PASSWORD = os.environ.get('PASSWORD')
 PASSWORD = st.secrets["PASSWORD"]
 FOLDER = st.secrets["FOLDER"]
 S3_BUCKET = st.secrets["S3_BUCKET"]
@@ -19,7 +19,7 @@ AWS_ACCESS_KEY = st.secrets["AWS_ACCESS_KEY"]
 AWS_SECRET_ACCESS_KEY = st.secrets["AWS_SECRET_ACCESS_KEY"]
 MILVUS_CLUSTER_ID = st.secrets["MILVUS_CLUSTER_ID"]
 MILVUS_API_KEY = st.secrets["MILVUS_API_KEY"]
-OPENAI_API = st.secrets["OPENAI_API_KEY"]
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 
 
 s3_client = boto3.client('s3',
