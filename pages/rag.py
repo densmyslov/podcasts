@@ -32,17 +32,17 @@ else:
 
     s3_client = pod.s3_client
 
-    key = f'{FOLDER}/all_videos_index.df'
-    obj = s3_client.get_object(Bucket=S3_BUCKET, Key = key)
-    buffer = BytesIO(obj['Body'].read())
 
     @cache_data
     def get_all_videos_index_df():
-        
-        key = f'{FOLDER}/all_videos_index.df'
-        obj = s3_client.get_object(Bucket=S3_BUCKET, Key = key)
-        buffer = BytesIO(obj['Body'].read())
-        return pd.read_parquet(buffer).drop_duplicates(subset=['file_name','segment_id'])
+        try:
+            key = f'{FOLDER}/all_videos_index.df'
+            obj = s3_client.get_object(Bucket=S3_BUCKET, Key = key)
+            buffer = BytesIO(obj['Body'].read())
+            return pd.read_parquet(buffer).drop_duplicates(subset=['file_name','segment_id'])
+        except:
+            st.write("There's no videos in your folder")
+            return pd.DataFrame()
 
     def process_milvus_vectors(milvus_r):
 
@@ -72,10 +72,12 @@ else:
         return rag_df
 
     all_videos_index_df = get_all_videos_index_df()
-    # st.dataframe(all_videos_index_df)
-    file_names = all_videos_index_df['file_name'].unique()
-    file_names = list(set(file_names))
-    file_names.sort()
+    if not all_videos_index_df.empty:
+        file_names = all_videos_index_df['file_name'].unique()
+        file_names = list(set(file_names))
+        file_names.sort()
+    else:
+        file_names = []
 
 
 
