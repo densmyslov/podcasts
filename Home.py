@@ -12,6 +12,7 @@ AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 S3_BUCKET = os.environ.get('S3_BUCKET')
 FOLDER = os.environ.get('FOLDER')
 PASSWORD = os.environ.get('PASSWORD')
+PASSWORD = st.secrets["PASSWORD"]
 
 s3_client = boto3.client('s3',
                          aws_access_key_id = AWS_ACCESS_KEY,
