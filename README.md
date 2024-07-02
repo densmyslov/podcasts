@@ -5,6 +5,8 @@
 
 <!-- ![Step functions graph](https://github.com/aguille-vert/podcasts/blob/main/step_functions_graph.png) -->
 
+<div style="text-align: center;">
 <a href="https://github.com/aguille-vert/podcasts/blob/main/step_functions_graph.png" target="_blank">
-    <img src="https://github.com/aguille-vert/podcasts/blob/main/step_functions_graph.png" alt="Step functions graph" width="150"/>
+    <img src="https://github.com/aguille-vert/podcasts/blob/main/step_functions_graph.png" alt="Step functions graph" width="100"/>
 </a>
+</div>
