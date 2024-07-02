@@ -25,6 +25,9 @@ S3_BUCKET = pod.S3_BUCKET
 FOLDER = pod.FOLDER
 PASSWORD = pod.PASSWORD
 
+if 'password' not in st.session_state:
+    st.session_state.password = ''
+
 if PASSWORD != st.session_state.password:
     st.error("Please enter your password at Home page")
     st.stop()
