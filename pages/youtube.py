@@ -31,7 +31,7 @@ else:
 
     st.title("Youtube to RAG")
 
-    UPLOAD_FOLDER = pod.folder
+    UPLOAD_FOLDER = pod.FOLDER
 
     #-----------------------------DRAG AND DROP------------------------------------
 
