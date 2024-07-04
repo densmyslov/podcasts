@@ -164,7 +164,7 @@ if video_name:
     
         rag_df = process_milvus_vectors(milvus_r)
         
-        st.dataframe(rag_df)
+        # st.dataframe(rag_df)
 
         segment_ids = rag_df['segment_id'].tolist()
 
@@ -194,5 +194,12 @@ if video_name:
                                             response_format = {"type":"json_object"}
                                                         )
         completion = json.loads(r_openai.json())
-        st.write(completion)
+        # st.write(i['message']['content'] for i in completion['choices'])
+        answer = completion['choices'][0]['message']['content']
+        answer = json.loads(answer)
+        for k,v in answer.items():
+            st.write(k)
+            st.write(v)
+
+        st.write()
 
