@@ -102,7 +102,6 @@ def upload_to_s3(s3_client, file_buffer, bucket_name, s3_filename, progress_trac
             progress_tracker['abort_error'] = str(abort_error)
 
 
-# uploaded_file = st.file_uploader("Choose an MP4 file", type="mp4", key="upload_local_file")
 uploaded_file = None
 
 if uploaded_file is not None:
