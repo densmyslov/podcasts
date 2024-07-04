@@ -19,20 +19,15 @@ s3_client = boto3.client('s3',
                          aws_access_key_id = AWS_ACCESS_KEY,
                         aws_secret_access_key = AWS_SECRET_ACCESS_KEY)
 
-if 'password' not in st.session_state:
-    st.session_state.password = ''
-st.session_state.password = st.text_input("password", 
-                        type='password')
-if st.session_state.password == PASSWORD:
-    st.success("Correct password")
-else:
-    st.error("Please enter password")
+# if 'password' not in st.session_state:
+#     st.session_state.password = ''
+# st.session_state.password = st.text_input("password", 
+#                         type='password')
+# if st.session_state.password == PASSWORD:
+#     st.success("Correct password")
+# else:
+#     st.error("Please enter password")
 
-# pages = [
-#         st.Page("./pages/youtube.py", title="Youtube link"),
-#         st.Page("./pages/rag.py", title="Podcast Q&A")
-
-#         ]
 
 pages = {
     "Youtube link": "./pages/youtube",
