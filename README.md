@@ -1,5 +1,5 @@
 # Youtube podcasts: Speech-to-text and RAG
-[link to demo](https://podcasts-rag.streamlit.app)
+[link to demo app](https://podcasts-agent.streamlit.app)
 ### Paste url of a Youtube video with speech, for example a podcast, and get transcription and RAG.
 * Speech-to-text model: Deepgram Nova-2
 * Vector embedding model: 'text-embedding-3-small'; dim = 1536
