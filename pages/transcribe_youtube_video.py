@@ -40,10 +40,10 @@ UPLOAD_FOLDER = pod.FOLDER
 # file_name = None
 # #-----------------------------DRAG AND DROP------------------------------------
 
-# def replace_dots_except_last(input_string):
-#     # Replace dots with a lookahead to ensure it's not the last dot
-#     input_string =  re.sub(r'\.(?=.*\.)', '', input_string)
-#     return re.sub("[,-/:|? ]","_", input_string)
+def replace_dots_except_last(input_string):
+    # Replace dots with a lookahead to ensure it's not the last dot
+    input_string =  re.sub(r'\.(?=.*\.)', '', input_string)
+    return re.sub("[,-/:|? \(\)]","_", input_string)
 
 # # Function to upload file to S3 with progress tracking
 # def upload_to_s3(s3_client, file_buffer, bucket_name, s3_filename, progress_tracker):

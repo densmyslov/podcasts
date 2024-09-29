@@ -103,7 +103,7 @@ milvus_client = MilvusClient(
 milvus_collection_name = 'podcasts'
 # st.write(milvus_client.describe_collection(collection_name="podcasts"))
 
-st.title("Chat About Your Video Podcast")
+st.title(":orange[Chat With Your Videos]")
 
 # Initialize chat history
 if "messages" not in st.session_state:
