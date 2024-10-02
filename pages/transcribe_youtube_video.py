@@ -45,71 +45,71 @@ def replace_dots_except_last(input_string):
     input_string =  re.sub(r'\.(?=.*\.)', '', input_string)
     return re.sub("[,-/:|? \(\)]","_", input_string)
 
-# # Function to upload file to S3 with progress tracking
-# def upload_to_s3(s3_client, file_buffer, bucket_name, s3_filename, progress_tracker):
+# Function to upload file to S3 with progress tracking
+def upload_to_s3(s3_client, file_buffer, bucket_name, s3_filename, progress_tracker):
     
-#     file_size = os.path.getsize(file_buffer.name)
-#     chunk_size = 5 * 1024 * 1024  # 5 MB
-#     progress = 0
+    file_size = os.path.getsize(file_buffer.name)
+    chunk_size = 5 * 1024 * 1024  # 5 MB
+    progress = 0
 
-#     file_buffer.seek(0)  # Ensure we're at the start of the file
+    file_buffer.seek(0)  # Ensure we're at the start of the file
 
-#     try:
-#         # Initialize multipart upload
-#         multipart_upload = s3_client.create_multipart_upload(Bucket=bucket_name, Key=s3_filename)
-#         parts = []
-#         part_number = 1
+    try:
+        # Initialize multipart upload
+        multipart_upload = s3_client.create_multipart_upload(Bucket=bucket_name, Key=s3_filename)
+        parts = []
+        part_number = 1
 
-#         while True:
-#             chunk = file_buffer.read(chunk_size)
-#             if not chunk:
-#                 break
-#             response = s3_client.upload_part(
-#                 Bucket=bucket_name, 
-#                 Key=s3_filename, 
-#                 PartNumber=part_number, 
-#                 UploadId=multipart_upload['UploadId'], 
-#                 Body=chunk
-#             )
-#             parts.append({
-#                 'PartNumber': part_number,
-#                 'ETag': response['ETag']
-#             })
-#             progress += len(chunk)
-#             progress_tracker['progress'] = progress / file_size * 100
-#             part_number += 1
-#             sleep(0.1)  # simulate delay for demonstration
+        while True:
+            chunk = file_buffer.read(chunk_size)
+            if not chunk:
+                break
+            response = s3_client.upload_part(
+                Bucket=bucket_name, 
+                Key=s3_filename, 
+                PartNumber=part_number, 
+                UploadId=multipart_upload['UploadId'], 
+                Body=chunk
+            )
+            parts.append({
+                'PartNumber': part_number,
+                'ETag': response['ETag']
+            })
+            progress += len(chunk)
+            progress_tracker['progress'] = progress / file_size * 100
+            part_number += 1
+            sleep(0.1)  # simulate delay for demonstration
 
-#         # Complete multipart upload
-#         s3_client.complete_multipart_upload(
-#             Bucket=bucket_name,
-#             Key=s3_filename,
-#             UploadId=multipart_upload['UploadId'],
-#             MultipartUpload={'Parts': parts}
-#         )
-#         progress_tracker['success'] = True
-#     except (NoCredentialsError, PartialCredentialsError, ClientError) as e:
-#         progress_tracker['success'] = False
-#         progress_tracker['error'] = str(e)
-#         try:
-#             s3_client.abort_multipart_upload(
-#                 Bucket=bucket_name,
-#                 Key=s3_filename,
-#                 UploadId=multipart_upload['UploadId']
-#             )
-#         except Exception as abort_error:
-#             progress_tracker['abort_error'] = str(abort_error)
-#     except Exception as e:
-#         progress_tracker['success'] = False
-#         progress_tracker['error'] = str(e)
-#         try:
-#             s3_client.abort_multipart_upload(
-#                 Bucket=bucket_name,
-#                 Key=s3_filename,
-#                 UploadId=multipart_upload['UploadId']
-#             )
-#         except Exception as abort_error:
-#             progress_tracker['abort_error'] = str(abort_error)
+        # Complete multipart upload
+        s3_client.complete_multipart_upload(
+            Bucket=bucket_name,
+            Key=s3_filename,
+            UploadId=multipart_upload['UploadId'],
+            MultipartUpload={'Parts': parts}
+        )
+        progress_tracker['success'] = True
+    except (NoCredentialsError, PartialCredentialsError, ClientError) as e:
+        progress_tracker['success'] = False
+        progress_tracker['error'] = str(e)
+        try:
+            s3_client.abort_multipart_upload(
+                Bucket=bucket_name,
+                Key=s3_filename,
+                UploadId=multipart_upload['UploadId']
+            )
+        except Exception as abort_error:
+            progress_tracker['abort_error'] = str(abort_error)
+    except Exception as e:
+        progress_tracker['success'] = False
+        progress_tracker['error'] = str(e)
+        try:
+            s3_client.abort_multipart_upload(
+                Bucket=bucket_name,
+                Key=s3_filename,
+                UploadId=multipart_upload['UploadId']
+            )
+        except Exception as abort_error:
+            progress_tracker['abort_error'] = str(abort_error)
 
 
 # uploaded_file = st.file_uploader("Select mp3 file from local disk", type=['mp3'])
@@ -161,10 +161,12 @@ if len(video_url) > 0 and 'youtu' in video_url:
 
     s = time()
     yt = YouTube(video_url, on_progress_callback = on_progress)
-    print(yt.title)
+    st.write(f"title: {yt.title}")
     
     ys = yt.streams.get_audio_only()
     file_name = ys.download(mp3=True)
+    file_extension = file_name.split('.')[-1]
+    st.write(f"file extension: {file_extension}")
     
     # Get the audio stream
     # ys = yt.streams.filter(only_audio=True).first()
@@ -191,6 +193,8 @@ if len(video_url) > 0 and 'youtu' in video_url:
     BUCKET_NAME = "hamazin-podcasts"
     UPLOAD_FOLDER = "lex-fridman"  # Define your upload folder
     s3_filename = replace_dots_except_last(file_title)
+    st.write(f"s3_filename : {s3_filename}")
+
 
     # You can add your upload to S3 logic here
     # Example:
@@ -201,7 +205,7 @@ if len(video_url) > 0 and 'youtu' in video_url:
 
 
     #===========================UPLOAD MP3 FILE===============================
-    S3_FILENAME = f"{UPLOAD_FOLDER}/{s3_filename}_{video_id}/from_local.mp4"
+    S3_FILENAME = f"{UPLOAD_FOLDER}/{s3_filename}_{video_id}/from_local.{file_extension}"
 
     progress_tracker = {'progress': 0, 'success': None, 'error': None, 'abort_error': None}
 
@@ -233,7 +237,7 @@ if len(video_url) > 0 and 'youtu' in video_url:
     
     file_buffer.close()
 
-#======================UPLOAD MP3 METADATA FILE=====================
+    #======================UPLOAD MP3 METADATA FILE=====================
     key = f"{UPLOAD_FOLDER}/{s3_filename}_{video_id}/mp4_file_data.json"
     BUCKET_NAME = "hamazin-podcasts"
     message = {"youtube_url": video_url,
