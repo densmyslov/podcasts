@@ -28,8 +28,8 @@ s3_client = boto3.client('s3',
 # else:
 #     st.error("Please enter password")
 
-
-st.video('https://youtu.be/KFHXJp2Lehs')
+with st.expander("Show demo"):
+    st.video('https://youtu.be/KFHXJp2Lehs')
 
 
 pages = {
